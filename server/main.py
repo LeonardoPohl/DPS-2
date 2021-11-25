@@ -1,3 +1,3 @@
-from example import Example
+from .example.example import Example
 
 Example()
