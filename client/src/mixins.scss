@@ -1,0 +1,94 @@
+@import 'vars';
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+@mixin inner-spacing($spacing, $horizontal: false) {
+  & > *:not(:last-child) {
+    @if $horizontal {
+      margin-right: $spacing;
+    } @else {
+      margin-bottom: $spacing;
+    }
+  }
+}
+
+@mixin button {
+  color: $accent-color;
+  border: none;
+  cursor: pointer;
+  background: none;
+  font-size: $small-font-size;
+  padding: 0;
+
+  transition: transform $short-animation-time ease-in-out;
+
+  &:not(:disabled):hover {
+    transform: translateY(-3px);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+  }
+}
+
+@mixin card {
+  padding: $large-padding;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+
+  background: white;
+}
+
+@mixin hover-grow {
+  transition: transform $short-animation-time;
+
+  &:not(:disabled):hover {
+    transform: scale(1.1);
+  }
+}
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin large-button {
+  display: block;
+  background-color: $accent-color;
+  color: $main-color;
+  text-align: center;
+  font-size: $medium-font-size;
+  margin: 0 auto;
+  border-radius: 1000px;
+  border: none;
+  padding: $medium-padding;
+  outline: none;
+  cursor: pointer;
+
+  @include hover-grow;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+@mixin scroll-bar {
+  @media (hover: hover) {
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar {
+      background-color: transparent;
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $accent-color;
+      border-radius: 4px;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@import '../../vars';
+@import '../../mixins';
+
+.user-create {
+  margin-bottom: $large-padding;
+}
+
+.user-list {
+  margin: auto;
+  max-width: 500px;
+}

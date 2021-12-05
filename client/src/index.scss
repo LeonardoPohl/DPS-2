@@ -1,0 +1,113 @@
+@import './mixins';
+@import './vars';
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Ubuntu:wght@300&display=swap');
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-weight: normal;
+  font-family: $regular-font;
+}
+
+html {
+  background-color: $bg-white;
+}
+
+button,
+input {
+  font-family: arial, sans-serif;
+  font-size: 1.25rem;
+}
+
+html,
+body,
+#root {
+  @include square(100%);
+}
+
+body {
+  font-family: arial, sans-serif;
+  font-size: $medium-font-size;
+
+  #root {
+    #loading-container {
+      height: calc(100vh - #{$header-height});
+      @include center;
+    }
+
+    main {
+      position: static !important;
+      height: calc(100% - #{$header-height});
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $title-font;
+    color: #555;
+    margin-top: $medium-padding;
+    margin-bottom: $small-padding;
+  }
+
+  a {
+    color: $main-color;
+    text-decoration-line: underline;
+    text-decoration-color: $accent-color;
+    text-decoration-style: dashed;
+    text-decoration-thickness: 3px;
+    -webkit-text-decoration-skip: none;
+
+    &:hover {
+      text-decoration-style: solid;
+    }
+  }
+}
+
+.user-box {
+  position: relative;
+
+  &:not(:last-of-type) input {
+    margin-bottom: 30px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px 0 4px 0;
+    font-size: $medium-font-size;
+    color: $main-color;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid $main-color;
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0 30px white inset !important;
+    }
+
+    &:focus ~ label,
+    &:valid ~ label {
+      top: -20px;
+      left: 0;
+      color: $accent-color;
+      font-size: $small-font-size;
+    }
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: $medium-font-size;
+    color: $main-color;
+    pointer-events: none;
+    transition: $long-animation-time;
+  }
+}

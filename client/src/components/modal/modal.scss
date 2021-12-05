@@ -1,0 +1,47 @@
+@import '../../vars';
+@import '../../mixins';
+
+.modal {
+  @include card;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: 300px;
+
+  &:focus {
+    outline: none;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $medium-padding;
+
+    h2 {
+      color: $accent-color;
+    }
+
+    .exit {
+      @include square(20px);
+      cursor: pointer;
+      @include hover-grow;
+      box-sizing: content-box;
+    }
+  }
+
+  p {
+    font-family: 'Light', arial, sans-serif;
+    font-size: $small-font-size;
+    word-break: break-word;
+  }
+
+  button {
+    @include large-button;
+    margin-top: $medium-padding;
+    width: auto;
+    padding: $small-padding $medium-padding;
+  }
+}
