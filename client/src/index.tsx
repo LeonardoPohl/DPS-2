@@ -1,20 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app";
+import { executePython } from "./execute-python";
 import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 
-import Worker from "workerize-loader!./worker.ts"; // eslint-disable-line import/no-webpack-loader-syntax
-for (let i = 0; i < 8; i++) {
-  const worker = new Worker();
-  // Create an instance of your worker
-  // Attach an event listener to receive calculations from your worker
-  worker.addEventListener("message", (message) => {
-    console.log("New Message: ", message.data);
-  });
-  // Run your calculations
-  (worker as any).calculatePrimes(i);
-}
+executePython("alma");
 
 ReactDOM.render(
   <React.StrictMode>
