@@ -1,10 +1,12 @@
 import sys
-sys.path.append('..')
 
-from distributed_execution import DistributedExecution
+sys.path.append("..")
+
 import logging
 
-if __name__ == '__main__':
+from distributed_execution import DistributedExecution
+
+if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
     def square(v: int) -> int:
