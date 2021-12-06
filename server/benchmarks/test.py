@@ -1,3 +1,6 @@
+import sys
+sys.path.append('..')
+
 from distributed_execution import DistributedExecution
 import logging
 

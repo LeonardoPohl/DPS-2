@@ -16,6 +16,6 @@ if __name__ == '__main__':
     def vector_multiplication(v: np.ndarray) -> np.ndarray:
         return np.dot(A, v)
     
-    results = list(tqdm(map(vector_multiplication, vectors)))
+    results = list(tqdm(map(vector_multiplication, vectors), total=len(vectors)))
 
     print(results)

@@ -1,3 +1,6 @@
+import sys
+sys.path.append('..')
+
 from distributed_execution import DistributedExecution
 import logging
 import numpy as np
@@ -16,7 +19,7 @@ if __name__ == '__main__':
     def vector_multiplication(v: np.ndarray) -> np.ndarray:
         return np.dot(A, v)
 
-    with DistributedExecution() as d:
-        results = d.map(vector_multiplication, vectors)
+    with DistributedExecution(packages=["numpy"]) as d:
+        results = d.map(vector_multiplication, vectors, chunk_size=2)
 
     print(results)
