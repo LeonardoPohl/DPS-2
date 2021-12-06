@@ -1,7 +1,7 @@
-@import './mixins';
-@import './vars';
+@import "./mixins";
+@import "./vars";
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Ubuntu:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito&family=Ubuntu:wght@300&display=swap");
 
 * {
   margin: 0;
@@ -31,14 +31,9 @@ body {
   font-size: $medium-font-size;
 
   #root {
-    #loading-container {
-      height: calc(100vh - #{$header-height});
-      @include center;
-    }
-
     main {
       position: static !important;
-      height: calc(100% - #{$header-height});
+      height: 100%;
     }
   }
 
@@ -49,9 +44,6 @@ body {
   h5,
   h6 {
     font-family: $title-font;
-    color: #555;
-    margin-top: $medium-padding;
-    margin-bottom: $small-padding;
   }
 
   a {
@@ -65,49 +57,5 @@ body {
     &:hover {
       text-decoration-style: solid;
     }
-  }
-}
-
-.user-box {
-  position: relative;
-
-  &:not(:last-of-type) input {
-    margin-bottom: 30px;
-  }
-
-  input {
-    width: 100%;
-    padding: 12px 0 4px 0;
-    font-size: $medium-font-size;
-    color: $main-color;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid $main-color;
-
-    &:-webkit-autofill,
-    &:-webkit-autofill:hover,
-    &:-webkit-autofill:focus,
-    &:-webkit-autofill:active {
-      box-shadow: 0 0 0 30px white inset !important;
-    }
-
-    &:focus ~ label,
-    &:valid ~ label {
-      top: -20px;
-      left: 0;
-      color: $accent-color;
-      font-size: $small-font-size;
-    }
-  }
-
-  label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 10px 0;
-    font-size: $medium-font-size;
-    color: $main-color;
-    pointer-events: none;
-    transition: $long-animation-time;
   }
 }

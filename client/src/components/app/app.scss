@@ -1,11 +1,42 @@
-@import '../../vars';
-@import '../../mixins';
+@import "../../vars";
+@import "../../mixins";
 
-.user-create {
-  margin-bottom: $large-padding;
+header {
+  margin-top: $large-padding;
+
+  h1 {
+    text-align: center;
+    font-size: $very-large-font-size;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: $large-font-size;
+    color: #555;
+  }
 }
 
-.user-list {
-  margin: auto;
-  max-width: 500px;
+.main-wrapper {
+  flex: 1;
+  @include center;
+
+  section {
+    @include card;
+    width: 70%;
+    min-width: 300px;
+    max-width: 800px;
+    margin: $large-padding auto;
+
+    .config {
+      text-align: center;
+
+      label {
+        margin-right: $small-padding;
+      }
+    }
+
+    .chart {
+      margin-top: $large-padding;
+    }
+  }
 }
