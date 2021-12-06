@@ -3,7 +3,6 @@ import { ModalContext, ModalData } from "../../contexts/modal-context";
 import "./app.scss";
 import Modal from "../modal/modal";
 import HasFooter from "../footer/has-footer";
-import { config } from "../../config";
 import {
   LineChart,
   Line,
@@ -24,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     setPool(
-      new WorkerPool(config.webSocketAddress, (e) =>
+      new WorkerPool((e) =>
         setModalValue({
           title: "Error",
           text: e,

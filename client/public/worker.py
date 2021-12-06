@@ -8,6 +8,8 @@ from time import sleep
 import micropip
 await micropip.install('cloudpickle')
 
+!!INSTALL_DEPENDENCIES!!
+
 map_function = None
 def set_map_function(code: str):
     global map_function

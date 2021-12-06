@@ -9,9 +9,13 @@ from websocket_server import WebsocketServer
 import pickle
 from dataclasses import dataclass
 import base64
+from fastapi import FastAPI
+import uvicorn
+import multiprocessing
 import cloudpickle
 from time import time
 from functools import lru_cache
+from fastapi.middleware.cors import CORSMiddleware
 
 logger = logging.getLogger('DistributedExecution')
 
@@ -34,13 +38,29 @@ class ClientTask():
     time_to_live: int
 
 
+def run_fastapi(packages: List[str], server_port: int):
+    app = FastAPI()
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"]
+    )
+
+    @app.get("/packages")
+    def get_packages():
+        return packages
+
+    uvicorn.run(app=app, host="0.0.0.0", port=server_port)
+
 class DistributedExecution:
-    def __init__(self, port=7700, packages: List[str] = ["numpy"], timeout_in_seconds=60):
+    def __init__(self, websocket_port=7700, server_port=7701, packages: List[str] = ["numpy"], timeout_in_seconds=60):
         self._timeout_in_seconds = timeout_in_seconds
-        self._server = WebsocketServer(host='0.0.0.0', port=port, loglevel=logging.INFO)
+        self._server = WebsocketServer(host='0.0.0.0', port=websocket_port, loglevel=logging.INFO)
         self._server.set_fn_new_client(self._on_new_client)
         self._server.set_fn_client_left(self._on_client_lost)
         self._server.set_fn_message_received(self._on_message)
+
+        self._server_port = server_port
+        self._packages = packages
 
         self._clients_ready = []
         self._client_tasks: List[ClientTask] = []
@@ -52,12 +72,16 @@ class DistributedExecution:
 
         logger.info(f'Created')
 
+    def _start_webserver(self):
+        self._webserver_process = multiprocessing.Process(target=run_fastapi, args=(self._packages, self._server_port))
+        self._webserver_process.start()
+        logger.info(f"Web server started on http://0.0.0.0:{self._server.port}")
+
     def map(
         self,
         function: Callable[[Any], Any],
         values: Iterable[Any],
         chunk_size=1,
-        success_text="Thank you for helping!"
     ) -> List[Any]:
         values = list(enumerate(values))
 
@@ -68,9 +92,12 @@ class DistributedExecution:
         self._map_function = map_function
     
         last_time = time()
-        thread = Thread(target = self._server.serve_forever)
-        thread.start()
+        websocket_thread = Thread(target = self._server.serve_forever)
+        websocket_thread.start()
         logger.info(f"WebSocket server started on ws://{self._server.host}:{self._server.port}")
+
+        self._start_webserver()
+
         self._is_active = True
         self._server.send_message_to_all(self._serialize_function(function))
         self._progress = tqdm(total=len(values))
@@ -104,8 +131,11 @@ class DistributedExecution:
 
         actual_completed = [d for _, d in sorted(self._completed)]
         self._server.shutdown_gracefully()
-        thread.join()
+        websocket_thread.join()
         logger.info(f"WebSocket server stopped")
+
+        self._webserver_process.terminate()
+        logger.info(f"Web server stopped")
 
         self._clients_ready = []
         self._client_tasks = []
