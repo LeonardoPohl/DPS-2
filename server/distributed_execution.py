@@ -6,6 +6,7 @@ import json
 from time import sleep, time
 from threading import Thread
 from websocket_server import WebsocketServer
+import pathlib
 import pickle
 from dataclasses import dataclass
 import base64
@@ -16,6 +17,7 @@ import cloudpickle
 from time import time
 from functools import lru_cache
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 logger = logging.getLogger('DistributedExecution')
 
@@ -49,10 +51,12 @@ def run_fastapi(packages: List[str], server_port: int):
     def get_packages():
         return packages
 
+    app.mount("/", StaticFiles(directory=pathlib.Path(__file__).parent.resolve()/"frontend"), name="static")
+
     uvicorn.run(app=app, host="0.0.0.0", port=server_port)
 
 class DistributedExecution:
-    def __init__(self, websocket_port=7700, server_port=7701, packages: List[str] = ["numpy"], timeout_in_seconds=60):
+    def __init__(self, websocket_port=7700, server_port=7701, packages: List[str] = [], timeout_in_seconds=60):
         self._timeout_in_seconds = timeout_in_seconds
         self._server = WebsocketServer(host='0.0.0.0', port=websocket_port, loglevel=logging.INFO)
         self._server.set_fn_new_client(self._on_new_client)
