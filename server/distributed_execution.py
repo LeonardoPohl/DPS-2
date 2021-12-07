@@ -16,6 +16,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from tqdm import tqdm as tqdm_regular
+from fastapi.responses import RedirectResponse
 from tqdm.notebook import tqdm_notebook
 from websocket_server import WebsocketServer
 
@@ -47,6 +48,10 @@ def run_fastapi(packages: List[str], server_port: int):
     @app.get("/packages")
     def get_packages():
         return packages
+
+    @app.get("/")
+    async def redirect():
+        return RedirectResponse(url='/index.html')
 
     app.mount(
         "/",
