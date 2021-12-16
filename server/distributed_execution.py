@@ -124,7 +124,7 @@ class DistributedExecution:
         self._is_active = True
         self._server.send_message_to_all(self._serialize_function(function))
         self._progress = tqdm(total=len(values))
-        while self._tasks or values:
+        while self._tasks or values or self._client_tasks:
             while len(self._tasks) >= chunk_size or (not values and self._tasks):
                 while not self._clients_ready:
                     sleep(0)
@@ -154,6 +154,8 @@ class DistributedExecution:
                     logger.warning(f"Task {t.task[0]} timed out, retrying")
                     self._client_tasks.remove(t)
                     values.append(t.task)
+
+            sleep(0)
 
             while values and len(self._tasks) < chunk_size:
                 self._tasks.append(values.pop(0))
