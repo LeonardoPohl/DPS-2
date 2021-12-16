@@ -1,11 +1,8 @@
 #!/bin/bash
 
-set -e
+module load python/3.6.0
 
-# cd client && yarn && yarn build && cd -
-
-cd server
 python3 -m venv --copies .env
 source .env/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
-cd -

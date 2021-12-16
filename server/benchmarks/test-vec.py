@@ -28,3 +28,6 @@ if __name__ == "__main__":
         end = time()
         rmserr = rmse(corr_res, results)
         
+        df.loc[len(df.index)] = ["Vec", False, n_reps, rmserr, end - start, sys.argv[1]]
+
+    df.to_csv('results.csv', mode='a', index=False)

@@ -20,3 +20,7 @@ if __name__ == "__main__":
         start = time()
         results = list(tqdm(map(vector_multiplication, vectors), total=len(vectors)))
         end = time()
+
+        df.loc[len(df.index)] = ["Vec", True, n_reps, 0, end - start, sys.argv[1]]
+
+    df.to_csv('results.csv', mode='a', index=False)
