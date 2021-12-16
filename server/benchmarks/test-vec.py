@@ -5,9 +5,10 @@ sys.path.append("..")
 import logging
 
 import numpy as np
+from tqdm import tqdm
 
 from distributed_execution import DistributedExecution
-from constants import n_reps, rmse, vector_multiplication
+from constants import n_reps, rmse
 import pandas as pd
 from time import time
 
@@ -19,8 +20,12 @@ if __name__ == "__main__":
 
     A = np.random.random((SIZE, SIZE))
     vectors = [np.random.random(SIZE) for i in range(VECTOR_COUNT)]
-    corr_res = list(map(vector_multiplication, vectors), total=len(vectors))
-    
+
+    def vector_multiplication(v: np.ndarray) -> np.ndarray:
+        return np.dot(A, v)
+    print('Calculating correct results')
+    corr_res = list(tqdm(map(vector_multiplication, vectors), total=len(vectors)))
+
     for i in range(n_reps):
         start = time()
         with DistributedExecution(packages=["numpy"]) as d:
