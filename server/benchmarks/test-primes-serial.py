@@ -1,3 +1,4 @@
+import sys
 import logging
 from tqdm import tqdm
 import pandas as pd
@@ -17,7 +18,7 @@ if __name__ == "__main__":
         results = list(tqdm(map(nth_prime, numbers), total=len(numbers)))
 
         end = time()
-        df.loc[len(df.index)] = ["Primes", True, n_reps, 0, end - start, sys.argv[1]]
+        df.loc[len(df.index)] = ["Primes", True, n_reps, 0, end - start, 0]
 
     df.to_csv('results.csv', mode='a', index=False)
     # print(results)
