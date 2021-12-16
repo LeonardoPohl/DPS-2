@@ -27,6 +27,3 @@ def nth_prime(x):
       primes.append(p)
 
   return primes[x]
-
-def vector_multiplication(v: np.ndarray) -> np.ndarray:
-  return np.dot(A, v)
