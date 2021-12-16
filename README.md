@@ -1,4 +1,4 @@
-# Nitocris - a p2p processing system
+# Nitocris - a distributed processing system
 
 In ancient Egypt, it is believed that Pharaoh Nitocris ruled at the end of the 6th Dynasty from 2182 to 2179 BC. It is believed that she built the smallest pyramid, the third pyramid at Giza. To achieve that, she needed people to help her accomplish that task. Similarly, we try to achieve a big goal by distributing the work. Another similarity is that we are, as of yet, not aiming to build the greatest pyramids.
 
