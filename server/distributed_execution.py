@@ -14,9 +14,9 @@ import cloudpickle
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from tqdm import tqdm as tqdm_regular
-from fastapi.responses import RedirectResponse
 from tqdm.notebook import tqdm_notebook
 from websocket_server import WebsocketServer
 
@@ -51,7 +51,7 @@ def run_fastapi(packages: List[str], server_port: int):
 
     @app.get("/")
     async def redirect():
-        return RedirectResponse(url='/index.html')
+        return RedirectResponse(url="/index.html")
 
     app.mount(
         "/",
@@ -93,7 +93,8 @@ class DistributedExecution:
 
     def _start_webserver(self):
         self._webserver_process = multiprocessing.Process(
-            target=run_fastapi, args=(self._packages, self._server_port)
+            # target=run_fastapi,
+            args=(self._packages, self._server_port)
         )
         self._webserver_process.start()
         logger.info(f"Web server started on http://0.0.0.0:{self._server.port}")
