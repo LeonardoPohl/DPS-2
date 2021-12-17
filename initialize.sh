@@ -2,7 +2,7 @@
 
 set -e
 
-# cd client && yarn && yarn build && cd -
+cd client && yarn && yarn build && cd -
 
 cd server
 python3 -m venv --copies .env

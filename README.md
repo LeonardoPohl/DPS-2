@@ -1,12 +1,29 @@
-# Nitocris - a distributed processing system
+# Nitocris - a distributed data processing system
 
-In ancient Egypt, it is believed that Pharaoh Nitocris ruled at the end of the 6th Dynasty from 2182 to 2179 BC. It is believed that she built the smallest pyramid, the third pyramid at Giza. To achieve that, she needed people to help her accomplish that task. Similarly, we try to achieve a big goal by distributing the work. Another similarity is that we are, as of yet, not aiming to build the greatest pyramids.
+> [Documentation](docs/report.pdf)
 
-This is the Repository, which contains the codebase of what we are planning to become a python package. Nitocris is planned to be a p2p processing system. Our main idea is that python code is run on one computer, server or even thin client.
+## Build
 
-The workload is intended to be a map function. This function is then pickled and compiled into web assembly. A link is then created, which allows any device, which has access to internet to contribute with compute resources.
+```sh
+./initialise.sh
+```
 
-## Install python without root privileges
+> Have yarn (Node), Python (version 3.8<) installed
+
+## Run
+
+### Start the execution
+
+```sh
+cd server/benchmarks
+python3 test-vec.py
+```
+
+### Open the client
+
+Go to [http://0.0.0.0:7701](http://0.0.0.0:7701) in your browser of choice.
+
+## Install modern Python without root privileges
 
 ```sh
 wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
@@ -18,3 +35,5 @@ wget https://bootstrap.pypa.io/get-pip.py
 ./python get-pip.py --user
 cd -
 ```
+
+> Useful on DAS-5

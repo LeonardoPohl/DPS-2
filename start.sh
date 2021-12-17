@@ -3,5 +3,5 @@
 set -e
 
 cd server/benchmarks
-python3 test.py
+python3 test-vec.py
 cd -
