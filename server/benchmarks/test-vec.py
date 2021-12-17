@@ -5,12 +5,8 @@ sys.path.append("..")
 import logging
 
 import numpy as np
-from tqdm import tqdm
 
 from distributed_execution import DistributedExecution
-from constants import n_reps, rmse
-import pandas as pd
-from time import time
 
 SIZE = 4096
 VECTOR_COUNT = 10000
@@ -23,16 +19,6 @@ if __name__ == "__main__":
 
     def vector_multiplication(v: np.ndarray) -> np.ndarray:
         return np.dot(A, v)
-    print('Calculating correct results')
-    corr_res = list(tqdm(map(vector_multiplication, vectors), total=len(vectors)))
 
-    for i in range(n_reps):
-        start = time()
-        with DistributedExecution(packages=["numpy"]) as d:
-            results = d.map(vector_multiplication, vectors, chunk_size=2)
-        end = time()
-        rmserr = rmse(corr_res, results)
-        
-        df.loc[len(df.index)] = ["Vec", False, n_reps, rmserr, end - start, sys.argv[1]]
-
-    df.to_csv('results.csv', mode='a', index=False)
+    with DistributedExecution(packages=["numpy"]) as d:
+        results = d.map(vector_multiplication, vectors, chunk_size=2)

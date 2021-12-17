@@ -3,13 +3,21 @@ import sys
 sys.path.append("..")
 
 import logging
+from time import time
+
+import pandas as pd
+from constants import columns, n_reps
 
 from distributed_execution import DistributedExecution
+
+CHUNK_SIZE = 1
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
-    numbers = list(range(100))
+    numbers = list(range(1000))
+
+    df = pd.DataFrame(columns=columns)
 
     def nth_prime(x):
         n = 5000000
@@ -30,5 +38,15 @@ if __name__ == "__main__":
 
         return primes[x]
 
-    with DistributedExecution() as d:
-        results = d.map(nth_prime, numbers, chunk_size=1)
+    for i in range(n_reps):
+
+        start = time()
+
+        with DistributedExecution() as d:
+            results = d.map(nth_prime, numbers, chunk_size=CHUNK_SIZE)
+
+        end = time()
+
+        df.loc[len(df.index)] = ["Primes", False, end - start, sys.argv[1], CHUNK_SIZE]
+
+    df.to_csv("results.csv", mode="a", index=False, header=False)
