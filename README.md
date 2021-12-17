@@ -5,7 +5,7 @@
 ## Build
 
 ```sh
-./initialise.sh
+./initialize.sh
 ```
 
 > Have yarn (Node), Python (version 3.8<) installed
@@ -15,7 +15,9 @@
 ### Start the execution
 
 ```sh
-cd server/benchmarks
+cd server
+source .env/bin/activate
+cd benchmarks
 python3 test-vec.py
 ```
 

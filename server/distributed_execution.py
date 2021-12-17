@@ -93,11 +93,11 @@ class DistributedExecution:
 
     def _start_webserver(self):
         self._webserver_process = multiprocessing.Process(
-            # target=run_fastapi,
+            target=run_fastapi,
             args=(self._packages, self._server_port)
         )
         self._webserver_process.start()
-        logger.info(f"Web server started on http://0.0.0.0:{self._server.port}")
+        logger.info(f"Web server started on http://0.0.0.0:{self._server_port}")
 
     def map(
         self,

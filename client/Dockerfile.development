@@ -1,9 +1,0 @@
-FROM node:14-alpine
-
-ENV NODE_ENV=development
-
-WORKDIR /app
-
-EXPOSE 3000
-
-ENTRYPOINT ["yarn", "start"]
