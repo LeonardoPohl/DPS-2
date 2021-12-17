@@ -8,7 +8,6 @@ logging.basicConfig(level=logging.DEBUG)
 import numpy as np
 
 from distributed_execution import DistributedExecution
-from time import time
 
 SIZE = 1024
 VECTOR_COUNT = 100000
@@ -19,17 +18,11 @@ if __name__ == "__main__":
     for _ in range(REPETITIONS):
         A = np.random.random((SIZE, SIZE))
 
-        def vector_multiplication(v: np.ndarray) -> np.ndarray:
-            a = np.dot(A, v)
-            for j in range(CPU_OVERHEAD):
-                a = np.dot(A, a)
-            return a
+    A = np.random.random((SIZE, SIZE))
+    vectors = [np.random.random(SIZE) for i in range(VECTOR_COUNT)]
 
-        vectors = [np.random.random(SIZE) for _ in range(VECTOR_COUNT)]
-        start = time()
-    
-        with DistributedExecution(packages=["numpy"], timeout_in_seconds=5) as d:
-            results = d.map(vector_multiplication, vectors, chunk_size=2)
+    def vector_multiplication(v: np.ndarray) -> np.ndarray:
+        return np.dot(A, v)
 
-        end = time()
-        print(end - start)
+    with DistributedExecution(packages=["numpy"]) as d:
+        results = d.map(vector_multiplication, vectors, chunk_size=2)

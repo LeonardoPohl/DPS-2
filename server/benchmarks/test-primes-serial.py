@@ -1,24 +1,28 @@
-import sys
 import logging
-from tqdm import tqdm
-import pandas as pd
-from time import time
-from constants import nth_prime, n_reps, columns
 
+from tqdm import tqdm
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
-    df = pd.DataFrame(columns=columns)
+    def nth_prime(x):
+        n = 5000000
+        prime = [True for i in range(n + 1)]
 
-    numbers = list(range(1000))
-    for i in range(n_reps):    
-        start = time()
+        p = 2
+        while p * p <= n:
+            if prime[p] == True:
+                for i in range(p * p, n + 1, p):
+                    prime[i] = False
 
-        results = list(tqdm(map(nth_prime, numbers), total=len(numbers)))
+            p += 1
 
-        end = time()
-        df.loc[len(df.index)] = ["Primes", True, n_reps, 0, end - start, 0]
+        primes = []
+        for p in range(2, n + 1):
+            if prime[p]:
+                primes.append(p)
 
-    df.to_csv('results.csv', mode='a', index=False)
-    # print(results)
+        return primes[x]
+
+    numbers = list(range(100))
+    results = list(tqdm(map(nth_prime, numbers), total=len(numbers)))
